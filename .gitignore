@@ -1,0 +1,23 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+frontend/node_modules/
+
+# IDE
+.idea/
+.vscode/
+
+# Runtime / generated
+uploads/
+backend/app/instance/history.db
+results/
+*.joblib
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

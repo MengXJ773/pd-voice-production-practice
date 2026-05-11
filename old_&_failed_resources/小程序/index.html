@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信网页项目</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+</head>
+<body>
+    <div class="container">
+        <p>请在下方输入您的姓名，并选择需要上传的音频文件（wav或mp3格式），建议为朗读一段文本的录音。上传完成后，您将在下方看到预测结果, 结果为是则代表有较大可能患有帕金森，否则相反。系统不是百分百准确，建议可以使用不同的录音多次预测并比对结果。系统结果仅作参考，更准确结果可以向医生确认。</p>
+        <input type="text" id="userName" placeholder="请输入用户姓名">
+        <input type="file" id="fileInput">
+        <button id="uploadButton">上传文件</button>
+        <div id="uploadResult" class="uploadResult" style="display: none;">
+            预测结果: <span id="prediction"></span>
+        </div>
+        <button id="fetchHistoryButton">获取历史记录</button>
+        <div class="history-section" id="historySection" style="display: none;">
+            <h3>历史记录</h3>
+            <p>以下是过去上传的文件的历史记录及其预测结果：</p>
+            <ul id="historyList"></ul>
+        </div>
+    </div>
+</body>
+</html>
