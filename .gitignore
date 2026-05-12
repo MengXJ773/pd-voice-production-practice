@@ -1,11 +1,13 @@
 # Python
 venv/
+.venv/
 __pycache__/
 *.pyc
 
 # Node
 node_modules/
 frontend/node_modules/
+frontend/dist/
 
 # IDE
 .idea/
@@ -14,9 +16,11 @@ frontend/node_modules/
 # Runtime / generated
 uploads/
 backend/app/instance/history.db
-results/
-*.joblib
 *.log
+
+# 可选：如果你要在仓库同步推理模型，就不要忽略 results 和 joblib
+# results/
+# *.joblib
 
 # OS
 .DS_Store
