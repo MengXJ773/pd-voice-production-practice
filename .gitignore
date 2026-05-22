@@ -1,11 +1,25 @@
 # Python
-venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
 
 # Node
 node_modules/
 frontend/node_modules/
+frontend/dist/
+
+# Local env files
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
 
 # IDE
 .idea/
@@ -13,10 +27,17 @@ frontend/node_modules/
 
 # Runtime / generated
 uploads/
-backend/app/instance/history.db
-results/
-*.joblib
+backend/app/instance/
+*.db
 *.log
+
+# ML artifacts
+results/
+
+# Local backups / transfer artifacts
+frontend_backup_*/
+*Zone.Identifier
+*：Zone.Identifier
 
 # OS
 .DS_Store
