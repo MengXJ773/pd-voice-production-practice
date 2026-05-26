@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^1.16.1",
     "core-js": "^3.8.3",
     "vue": "^3.2.13"
   },
@@ -30,7 +31,8 @@
       "eslint:recommended"
     ],
     "parserOptions": {
-      "parser": "@babel/eslint-parser"
+	  "parser": "@babel/eslint-parser",
+	  "requireConfigFile": false
     },
     "rules": {}
   },

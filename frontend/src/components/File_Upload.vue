@@ -25,6 +25,7 @@
 
 <script>
 import axios from 'axios';
+const API_BASE_URL = process.env.VUE_APP_API_BASE_URL || 'http://127.0.0.1:5000';
 
 export default {
   data() {
@@ -45,7 +46,7 @@ export default {
       formData.append('file', this.selectedFile);
       formData.append('userName', this.userName);
 
-      axios.post('http://127.0.0.1:5000/upload', formData, {
+      axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -58,7 +59,7 @@ export default {
       });
     },
     fetchHistory() {
-      axios.get('http://127.0.0.1:5000/history')
+      axios.get(`${API_BASE_URL}/history`)
         .then(response => {
           this.histories = response.data;  // 假设histories是绑定到模板的一个数组
         })

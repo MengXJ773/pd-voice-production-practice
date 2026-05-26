@@ -1,13 +1,25 @@
 # Python
-venv/
-.venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
 
 # Node
 node_modules/
 frontend/node_modules/
 frontend/dist/
+
+# Local env files
+.env
+.env.*
+!.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
 
 # IDE
 .idea/
@@ -15,12 +27,20 @@ frontend/dist/
 
 # Runtime / generated
 uploads/
-backend/app/instance/history.db
+backend/app/instance/
+*.db
 *.log
 
-# 可选：如果你要在仓库同步推理模型，就不要忽略 results 和 joblib
-# results/
-# *.joblib
+# ML artifacts
+results/
+
+# Docs (kept local, not tracked in future commits)
+docs/
+
+# Local backups / transfer artifacts
+frontend_backup_*/
+*Zone.Identifier
+*：Zone.Identifier
 
 # OS
 .DS_Store

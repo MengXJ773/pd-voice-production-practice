@@ -3,6 +3,7 @@ from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from pydub import AudioSegment
 import os
+from pathlib import Path
 from joblib import load
 import pandas as pd
 from Get_Feature import extract_mfcc_features,extract_formants,extract_phonation_features
@@ -10,6 +11,13 @@ from collections import Counter
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
+BASE_DIR = Path(__file__).resolve().parents[2]
+
+
+def resolve_project_path(env_name, default_path):
+    configured_path = os.getenv(env_name)
+    path = Path(configured_path) if configured_path else default_path
+    return path if path.is_absolute() else BASE_DIR / path
 
 def record_history(user_name, upload_time, prediction):
     new_history = History(user_name=user_name, upload_time =upload_time, prediction=prediction)
@@ -18,13 +26,13 @@ def record_history(user_name, upload_time, prediction):
     pass
 
 
-def load_preprocessing_resources():
+def load_preprocessing_resources(artifact_dir):
     # 加载移除的高度相关特征列表
-    with open('/mnt/d/大学材料/毕设/project/results//to_drop_features.txt', 'r') as f:
+    with open(artifact_dir / "to_drop_features.txt", "r", encoding="utf-8") as f:
         to_drop = [line.strip() for line in f.readlines()]
 
     # 加载StandardScaler对象
-    scaler = load('/mnt/d/大学材料/毕设/project/results/standard_scaler.joblib')
+    scaler = load(artifact_dir / "standard_scaler.joblib")
     return to_drop, scaler
 
 
@@ -86,22 +94,24 @@ def integrated_prediction(preprocessed_data):
     return prediction_result
 
 
+MODEL_DIR = resolve_project_path("MODEL_DIR", BASE_DIR / "results")
+ARTIFACT_DIR = resolve_project_path("ARTIFACT_DIR", MODEL_DIR)
 app = Flask(__name__)
 CORS(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///history.db'  # 配置数据库
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///history.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'wav', 'mp3'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-model1 = load('/mnt/d/大学材料/毕设/project/results/best_cudatrain_LR_model.joblib')
-model2 = load('/mnt/d/大学材料/毕设/project/results/best_cudatrain_MBSGD_model.joblib')
-model3 = load('/mnt/d/大学材料/毕设/project/results/best_cudatrain_RF_model.joblib')
-model4 = load('/mnt/d/大学材料/毕设/project/results/best_cudatrain_SVM_model.joblib')
-model5 = load('/mnt/d/大学材料/毕设/project/results/best_cudatrain_KNN_model.joblib')
+model1 = load(MODEL_DIR / "best_cudatrain_LR_model.joblib")
+model2 = load(MODEL_DIR / "best_cudatrain_MBSGD_model.joblib")
+model3 = load(MODEL_DIR / "best_cudatrain_RF_model.joblib")
+model4 = load(MODEL_DIR / "best_cudatrain_SVM_model.joblib")
+model5 = load(MODEL_DIR / "best_cudatrain_KNN_model.joblib")
 feature_extractors = [extract_mfcc_features,extract_formants,extract_phonation_features]
-to_drop, scaler = load_preprocessing_resources()
+to_drop, scaler = load_preprocessing_resources(ARTIFACT_DIR)
 
 
 class History(db.Model):
