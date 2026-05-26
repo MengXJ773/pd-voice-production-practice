@@ -34,6 +34,9 @@ backend/app/instance/
 # ML artifacts
 results/
 
+# Docs (kept local, not tracked in future commits)
+docs/
+
 # Local backups / transfer artifacts
 frontend_backup_*/
 *Zone.Identifier
